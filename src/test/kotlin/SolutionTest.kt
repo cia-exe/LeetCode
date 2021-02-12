@@ -5,6 +5,121 @@ import org.junit.jupiter.api.Assertions.*
 internal class SolutionTest {
 
     @Test
+    fun lengthOfLongestSubstring() {
+
+        class Solution {
+
+            fun lengthOfLongestSubstring(s: String): Int {
+
+                val lastIdx = s.length - 1
+                if (lastIdx < 0) return 0
+                if (lastIdx == 0) return 1
+
+                var max = 0
+                var beginIdx = 0
+                var checkIdx = 1
+                val set = HashSet<Char>()
+                //val set = mutableSetOf<Char>() //==LinkedHashSet
+
+                while (true) if (
+                    run {
+                        val sBegin = s[beginIdx++]
+                        set.add(sBegin)
+                        if (checkIdx < beginIdx) checkIdx = beginIdx
+
+                        while (checkIdx <= lastIdx) {
+                            val sCheck = s[checkIdx]
+                            if (set.contains(sCheck)) break
+                            set.add(sCheck)
+                            checkIdx++
+                        }
+
+                        val n = set.size
+                        if (max < n) max = n
+                        set.remove(sBegin)
+
+                        checkIdx > lastIdx
+                    }
+                ) break
+                return max
+            }
+        }
+
+        //--------------------
+        class SolutionOk {
+
+            var max = 0
+            var lastIdx = 0
+            lateinit var s: String
+            val set = mutableSetOf<Char>()
+
+            fun lengthOfLongestSubstring(s: String): Int {
+
+                this.s = s
+                lastIdx = s.length - 1
+
+                for (i in 0..lastIdx) {
+                    fn(i)
+                }
+                return max
+            }
+
+            fun fn(beginIdx: Int) {
+                set.clear()
+
+                var i = beginIdx
+                set.add(s[i])
+
+                while (++i <= lastIdx)
+                    if (!set.add(s[i])) break
+
+                val n = set.size
+                if (max < n) max = n
+            }
+        }
+
+        //--------------------
+        class SolutionSlow {
+
+            fun lengthOfLongestSubstring(s: String): Int {
+
+                val set = mutableSetOf<Char>()
+                val lastIdx = s.length - 1
+
+                val fn: (Int) -> Int = {
+                    set.clear()
+
+                    var i = it
+                    set.add(s[i])
+                    var x = 1
+
+                    while (++i <= lastIdx) {
+                        val c = s[i]
+                        if (set.contains(c))
+                            break
+                        else x++
+                        set.add(c)
+                    }
+                    x
+                }
+
+                var max = 0
+                for (i in 0..lastIdx) {
+                    val n = fn(i)
+                    if (max < n)
+                        max = n
+                }
+                return max
+            }
+        }
+
+        assertEquals(5, Solution().lengthOfLongestSubstring("qrsvbspk"))
+        assertEquals(2, Solution().lengthOfLongestSubstring("aab"))
+        assertEquals(3, Solution().lengthOfLongestSubstring("dvdf"))
+    }
+
+
+    @Test
     fun removeKdigits() {
 
         fun removeKdigits(number: String, k: Int): String {
