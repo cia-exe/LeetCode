@@ -115,6 +115,7 @@ internal class SolutionTest {
         assertEquals(5, Solution().lengthOfLongestSubstring("qrsvbspk"))
         assertEquals(2, Solution().lengthOfLongestSubstring("aab"))
         assertEquals(3, Solution().lengthOfLongestSubstring("dvdf"))
+        "pass".log()
     }
 
 

@@ -1,7 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.4.21"
+    kotlin("jvm") version "1.6.10"
+    //id("org.jetbrains.kotlinx.benchmark") version "0.3.1"       // for benchmark
+    //id("org.jetbrains.kotlin.plugin.allopen") version "1.6.0"   // for benchmark
+
     application
 }
 
@@ -14,8 +17,10 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test-junit5"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+
+    //testImplementation("org.jetbrains.kotlinx:kotlinx-benchmark-runtime:0.3.1")   // for benchmark
 }
 
 tasks.test {
@@ -29,3 +34,14 @@ tasks.withType<KotlinCompile>() {
 application {
     mainClassName = "MainKt"
 }
+
+/* // for benchmark
+allOpen {
+    annotation("org.openjdk.jmh.annotations.State")
+}
+
+benchmark {
+    targets {
+        register("test")
+    }
+}*/
