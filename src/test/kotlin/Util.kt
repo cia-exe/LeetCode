@@ -1,0 +1,1 @@
+fun getMethodName(): String = Throwable().stackTrace[1].methodName
