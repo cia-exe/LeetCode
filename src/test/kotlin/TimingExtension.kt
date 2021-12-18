@@ -8,15 +8,15 @@ class TimingExtension : BeforeTestExecutionCallback, AfterTestExecutionCallback 
 
     //@Throws(Exception::class)
     override fun beforeTestExecution(context: ExtensionContext) {
-        getStore(context).put(START_TIME, System.currentTimeMillis())
+        getStore(context).put(START_TIME, System.nanoTime() /*System.currentTimeMillis()*/)
     }
 
     //@Throws(Exception::class)
     override fun afterTestExecution(context: ExtensionContext) {
         val testMethod = context.requiredTestMethod
         val startTime = getStore(context).remove(START_TIME, Long::class.javaPrimitiveType)
-        val duration = System.currentTimeMillis() - startTime
-        "${testMethod.name}() took $duration ms.".log()
+        val duration = System.nanoTime() - startTime // System.currentTimeMillis() - startTime
+        "${testMethod.name}() took ${duration/1000000.0} ms.".log()
         //logger.info("Method [${testMethod.name}] took $duration ms.")
     }
 
