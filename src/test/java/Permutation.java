@@ -9,11 +9,39 @@ class Permutation {
 
     @Test
     public void go() {
-        var x = 2;
-        var x6 = 6 * x;
-        assertEquals(6, x6 / x);
 
-        out.println(this);
+        Character[] arr = {'A','B','C','D'};
+
+        printCount=0;
+        run(arr, arr.length);
+    }
+
+    public static <T> void run(T[] elements ,int n) {
+
+        if(n == 1) printArray(elements);
+        else {
+            for(int i = 0; i < n-1; i++) {
+                run(elements,n - 1);
+
+                if(n % 2 == 0) swap(elements, i, n-1);
+                else swap(elements, 0, n-1);
+
+            }
+            run(elements,n - 1);
+        }
+    }
+
+    // helper methods:
+    private  static <T>  void swap(T[] input, int a, int b) {
+        T tmp = input[a];
+        input[a] = input[b];
+        input[b] = tmp;
+    }
+
+    private  static  int printCount;
+    private  static <T>  void printArray(T[] input) {
+        for (T t : input) out.print(t);
+        out.printf("  (%d)\n", printCount++);
     }
 }
 
