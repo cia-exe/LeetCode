@@ -22,45 +22,35 @@ class Permutation {
     int len;
     List<List<Integer>> result = new ArrayList<>();
 
-    public List<List<Integer>> permute(int[] nums) {
-        len = nums.length;
-        dfs(nums, 0);
+    public List<List<Integer>> permute(int[] num) {
+        len = num.length;
+        var t=new Integer[len];
+        for(int i=0;i<len;i++) t[i]=num[i];
+        dfs(t, 0);
         return result;
     }
 
-    private void dfs(int[] nums, int begin) {
+    private void dfs(Integer[] arr, int level) {
 
-        nums = Arrays.copyOf(nums, nums.length);
+        //out.printf("dfs(%s,%d)\n", Arrays.toString(arr), level);
+        arr = Arrays.copyOf(arr, arr.length);
 
-        //out.printf("%d:%s\n", begin, Arrays.toString(nums));
-        int begin1 = begin + 1;
-        if (begin1 == len) {
-            var l = new ArrayList<Integer>();
-            for (var o : nums) l.add(o);
-            result.add(l);
+        int next = level + 1;
+        if (next == len) {
+            result.add(Arrays.asList(arr)); // changes the list/arr will be visible in the arr/list!
             return;
         }
 
-        dfs(nums, begin1);
-        for (int i = begin1; i < len; i++) {
-            swap(nums, begin, i);
-            //out.printf("** %d:%s\n", begin, Arrays.toString(nums));
-            dfs(nums, begin1);
+        dfs(arr, next);
+        for (int i = next; i < len; i++) {
+
+            //swap
+            int t=arr[level];
+            arr[level]=arr[i];
+            arr[i]=t;
+
+            dfs(arr, next);
         }
-    }
-
-    // helper methods:
-    private static void swap(int[] input, int a, int b) {
-        int tmp = input[a];
-        input[a] = input[b];
-        input[b] = tmp;
-    }
-
-    private static int printCount;
-
-    private static <T> void printArray(T[] input) {
-        for (T t : input) out.print(t);
-        out.printf("  (%d)\n", printCount++);
     }
 }
 
