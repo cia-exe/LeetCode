@@ -18,10 +18,10 @@ class Permutation0Test {
     }
 
     public List<List<Integer>> permute(int[] num) {
-        return dfs(num, new Stack<>(), new ArrayList<>());
+        return dfs(num, Arrays.asList(new Integer[num.length]), new ArrayList<>());
     }
 
-    private List<List<Integer>> dfs(int[] arr, Stack<Integer> ans, List<List<Integer>> result) {
+    private List<List<Integer>> dfs(int[] arr, List<Integer> ans, List<List<Integer>> result) {
         //out.printf("dfs(%s,%d)\n", Arrays.toString(arr), arr.length);
         int len = arr.length;
         if (len == 0) result.add(List.copyOf(ans));
@@ -32,9 +32,8 @@ class Permutation0Test {
                     arr[0] = arr[i];
                     arr[i] = t;
                 }
-                ans.push(arr[0]);
+                ans.set(ans.size() - len, arr[0]);
                 dfs(Arrays.copyOfRange(arr, 1, len), ans, result);
-                ans.pop();
             }
         }
         return result;
@@ -135,19 +134,19 @@ class Combination0Test {
 
     @Test
     public void go() {
-        String[] arr = {"A", "B", "C", "D", "E", "F"};
+        int[] arr = {1, 2, 3, 4, 5};
 
         combinations(arr, 2);
         out.println("---------------");
-        combinations(arr, 6);
+        combinations(arr, 3);
 
     }
 
-    static void combinations(String[] arr, int len) {
-        combinations(arr, len, 0, new String[len]);
+    static void combinations(int[] arr, int len) {
+        combinations(arr, len, 0, new int[len]);
     }
 
-    static void combinations(String[] arr, int len, int startPosition, String[] result) {
+    static void combinations(int[] arr, int len, int startPosition, int[] result) {
         if (len == 0) {
             out.println(Arrays.toString(result));
             return;
