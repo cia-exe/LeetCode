@@ -134,6 +134,51 @@ class Combination0Test {
 
     @Test
     public void go() {
+
+        var r = combine(4, 1);
+        out.print(r.size());
+        out.println(r);
+
+        r = combine(4, 2);
+        out.print(r.size());
+        out.println(r);
+
+        r = combine(4, 3);
+        out.print(r.size());
+        out.println(r);
+
+        r = combine(4, 4);
+        out.print(r.size());
+        out.println(r);
+    }
+
+    Integer[] ans;
+    List<List<Integer>> result;
+    int n, k;
+
+    void dfs(int s, int l) {
+        if (l == k) result.add(List.of(ans));
+        else for (int i = s + 1; i <= n; i++) {
+            ans[l] = i;
+            dfs(i, l + 1);
+        }
+    }
+
+    public List<List<Integer>> combine(int n, int k) {
+        this.n = n;
+        this.k = k;
+        ans = new Integer[k];
+        result = new ArrayList<>();
+
+        dfs(0, 0);
+        return result;
+    }
+}
+
+class Combination1Test {
+
+    @Test
+    public void go() {
         int[] arr = {1, 2, 3, 4, 5};
 
         combinations(arr, 2);
