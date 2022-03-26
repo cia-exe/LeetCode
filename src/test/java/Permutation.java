@@ -3,11 +3,46 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 import static java.lang.System.out;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class Permutation {
+class Permutation0Test {
+
+    @Test
+    public void testRun() {
+        var r = permute(new int[]{1, 2, 3, 4});
+        out.println(r.size());
+        for (var o : r) out.println(o);
+    }
+
+    public List<List<Integer>> permute(int[] num) {
+        return dfs(num, new Stack<>(), new ArrayList<>());
+    }
+
+    private List<List<Integer>> dfs(int[] arr, Stack<Integer> ans, List<List<Integer>> result) {
+        //out.printf("dfs(%s,%d)\n", Arrays.toString(arr), arr.length);
+        int len = arr.length;
+        if (len == 0) result.add(List.copyOf(ans));
+        else {
+            for (int i = 0; i < len; i++) {
+                if (i > 0) { //swap
+                    int t = arr[0];
+                    arr[0] = arr[i];
+                    arr[i] = t;
+                }
+                ans.push(arr[0]);
+                dfs(Arrays.copyOfRange(arr, 1, len), ans, result);
+                ans.pop();
+            }
+        }
+        return result;
+    }
+}
+
+
+class Permutation1Test {
 
     @Test
     public void testRun() {
@@ -15,7 +50,7 @@ class Permutation {
         var r = permute(new int[]{1, 2, 3, 4});
 
         out.println(r.size());
-        for(var o:r)
+        for (var o : r)
             out.println(o);
     }
 
@@ -24,15 +59,15 @@ class Permutation {
 
     public List<List<Integer>> permute(int[] num) {
         len = num.length;
-        var t=new Integer[len];
-        for(int i=0;i<len;i++) t[i]=num[i];
+        var t = new Integer[len];
+        for (int i = 0; i < len; i++) t[i] = num[i];
         dfs(t, 0);
         return result;
     }
 
     private void dfs(Integer[] arr, int level) {
 
-        //out.printf("dfs(%s,%d)\n", Arrays.toString(arr), level);
+        out.printf("dfs(%s,%d)\n", Arrays.toString(arr), level);
         arr = Arrays.copyOf(arr, arr.length);
 
         int next = level + 1;
@@ -45,9 +80,9 @@ class Permutation {
         for (int i = next; i < len; i++) {
 
             //swap
-            int t=arr[level];
-            arr[level]=arr[i];
-            arr[i]=t;
+            int t = arr[level];
+            arr[level] = arr[i];
+            arr[i] = t;
 
             dfs(arr, next);
         }
@@ -55,7 +90,7 @@ class Permutation {
 }
 
 
-class PermutationX {
+class Permutation2Test {
 
     @Test
     public void go() {
@@ -96,7 +131,7 @@ class PermutationX {
     }
 }
 
-class Combination {
+class Combination0Test {
 
     @Test
     public void go() {
@@ -104,7 +139,7 @@ class Combination {
 
         combinations(arr, 2);
         out.println("---------------");
-        combinations(arr, 3);
+        combinations(arr, 6);
 
     }
 
