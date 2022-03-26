@@ -104,6 +104,12 @@ public class MiscTest {
         // but offer()/poll() returns false/null if failed.
         // (add to capacity-restricted queue, or remove from empty queue.)
 
+        // Don't use Stack anymore, it's very old java and relies on Vector.
+        // Instead of use Deque, implemented by e.g. ArrayDeque or LinkedList.
+
+        // ArrayDeque 和 Stack 類都可以，但 ArrayDeque 效率高於 Stack，
+        // 功能也比 Stack 多，Java 已不推薦使用 Stack，而推薦 ArrayDeque，次選 LinkedList
+
         out.println("stack------------");
         var s = new Stack<Integer>();
         s.push(1);
@@ -134,6 +140,8 @@ public class MiscTest {
         q.peekFirst(); //q.getFirst(); // NoSuchElementException when empty
         q.peekLast();
 
+        out.println(" array queue-----------");
+        var d= new ArrayDeque<Integer>();
 
 
         out.println("heap-----------");
