@@ -57,7 +57,8 @@ public class MiscTest {
 
         Collections.sort(l3);
         out.println(l3);
-        Collections.sort(l3, Collections.reverseOrder());
+        l3.sort(Collections.reverseOrder());
+        //Collections.sort(l3, Collections.reverseOrder()); //older method
         out.println(l3);
 //        l3.sort(Collections.reverseOrder()); // no naturalOrder()
         l3.sort(Comparator.naturalOrder());
@@ -153,7 +154,7 @@ public class MiscTest {
         h.offer(2); // false if failed
         o = h.remove(); // exception if empty
         o = h.poll(); // null if empty
-
+        var dict = Map.of('I' , 1, 'V' , 5, 'X' , 10, 'L' , 50, 'C' , 100, 'D' , 500, 'M' , 1000);
         h.peek();
         h.contains(2);
 
