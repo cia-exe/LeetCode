@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test
 import java.util.*
 
+
 internal class Solution410 {
     @Test
     fun go() {
@@ -129,21 +130,56 @@ internal class Solution692 {
 internal class Solution1260 {
     @Test
     fun go() {
-        println(
-            shiftGrid(
-                arrayOf(
-                    intArrayOf(1, 2, 3, 4, 5),
-                    intArrayOf(11, 12, 13, 14, 15),
-                    intArrayOf(21, 22, 23, 24, 25)
-                ), 3
-            )
+
+        val data = arrayOf(
+            intArrayOf(1, 2, 3, 4, 5),
+            intArrayOf(11, 12, 13, 14, 15),
+            intArrayOf(21, 22, 23, 24, 25)
         )
+        println(shiftGrid(data, 3))
+        println(shiftGrid4(data, 3))
     }
 
-    fun shiftGrid(grid: Array<IntArray>, _k: Int): List<List<Int>> {
-
-        //var g=new ArrayList<LinkedList<Integer>>();
+    fun shiftGrid4(g: Array<IntArray>, _k: Int): List<List<Int>> { //5ms (92.64%)
         var k = _k
+        val y = g.size
+        val x = g[0].size
+        val total = x * y
+        k = (total - k % total) % total // check total=9, k=9
+        val ans = ArrayList<List<Int>>(y)
+        repeat(y) {
+            val l = IntArray(x)
+            repeat(x) {
+                l[it] = g[k / x][k % x]
+                k = (k + 1) % total
+            }
+            ans.add(l.toList())
+        }
+        return ans
+    }
+
+    fun shiftGrid(g: Array<IntArray>, _k: Int): List<List<Int>> { //3ms (98.84%)
+        var k = _k
+        val y = g.size
+        val x = g[0].size
+        val total = x * y
+        k = (total - k % total) % total // check total=9, k=9
+        val ans: MutableList<List<Int>> = ArrayList(y)
+        for (i in 0 until y) {
+            val l = ArrayList<Int>(x)
+            ans.add(l)
+            repeat(x) {
+                l.add(g[k / x][k % x])
+                k = (k + 1) % total
+            }
+        }
+        return ans
+    }
+
+
+    fun shiftGrid0(grid: Array<IntArray>, _k: Int): List<List<Int>> { //8ms (65%)
+        var k = _k
+        k %= (grid.size * grid[0].size)
         val g = ArrayList<List<Int>>()
         for (ints in grid) {
             val l = LinkedList<Int>()
@@ -157,10 +193,27 @@ internal class Solution1260 {
             for (l in g) (l as LinkedList<Int>).offerFirst(q.poll())
         }
         return g
+    }
 
-//        List<List<Integer>> gg=new ArrayList<List<Integer>>();
-//        for(var l:g) gg.add(l);
-//        return gg;
+
+    fun shiftGrid1(grid: Array<IntArray>, _k: Int): List<List<Int>> { //8ms (65%)
+        var k = _k
+        k %= (grid.size * grid[0].size)
+        val g = ArrayList<LinkedList<Int>>()
+        for (ints in grid) {
+            val l = LinkedList<Int>()
+            for (i in ints) l.add(i)
+            g.add(l)
+        }
+        val q = ArrayDeque<Int>()
+        while (k-- > 0) {
+            for (l in g) q.offer(l.pollLast())
+            q.offerFirst(q.pollLast())
+            for (l in g) l.offerFirst(q.poll())
+        }
+        val gg: MutableList<List<Int>> = ArrayList()
+        for (l in g) gg.add(l)
+        return gg
     }
 }
 
@@ -204,6 +257,4 @@ internal class Solution17 {
         dfs(0)
         return ans
     }
-
-
 }
