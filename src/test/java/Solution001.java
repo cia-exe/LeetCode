@@ -222,3 +222,56 @@ class Solution17j {
         }
     }
 }
+
+class Solution59j {
+
+    @Test
+    public void go() {
+        out.println(generateMatrix(1));
+        out.println(generateMatrix(2));
+        out.println(generateMatrix(5));
+    }
+
+
+    public int[][] generateMatrix(int n) {
+        int[][] dir = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        var a = new int[n][n];
+        int x = -1, y = 0, idx = 0, num=0;
+        var d = dir[0];
+        while (++num<=n) {
+            int ny = y + d[0], nx = x + d[1];
+            if (nx >= 0 && nx < n && ny >= 0 && ny < n && a[ny][nx] == 0) {
+                x = nx;
+                y = ny;
+            } else {
+                d = dir[++idx % 4];
+                y += d[0];
+                x += d[1];
+            }
+            a[y][x]=num;
+        }
+        return a;
+    }
+
+//    fun generateMatrix(n: Int): Array<IntArray> {
+//
+//        val dir = arrayOf(intArrayOf(0, 1), intArrayOf(1, 0), intArrayOf(0, -1), intArrayOf(-1, 0))
+//        val ans = Array(n) { IntArray(n) }
+//        var idx = 0
+//        var x = -1
+//        var y = 0
+//        var d = dir[0]
+//        repeat(n * n) {
+//            val ny = y + d[0]
+//            val nx = x + d[1]
+//            if (nx in 0 until n && ny in 0 until n && ans[ny][nx] == 0) {
+//                x = nx; y = ny
+//            } else { // If the next position is out of range or its value has already been set
+//                d = dir[++idx % 4]
+//                x += d[1]; y += d[0]
+//            }
+//            ans[y][x] = it + 1
+//        }
+//        return ans
+//    }
+}
